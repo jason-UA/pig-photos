@@ -12,10 +12,13 @@ import SnapKit
 class PhotoViewController: UIViewController {
     
     private let cellIdentifier = "PhotoCell"
+    private var photos: [Photo] = []{
+        didSet{
+            collectionView.reloadData()
+        }
+    }
     
     private let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +28,11 @@ class PhotoViewController: UIViewController {
     
     private func setupView() {
         setupCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        photos = PhotoHandler.sharedInstance.getAllPhotos()
     }
     
     private func setupCollectionView() {
@@ -53,12 +61,12 @@ class PhotoViewController: UIViewController {
 
 extension PhotoViewController:UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return photos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PhotoCollectionViewCell
-        
+        cell.photo = photos[indexPath.row]
         return cell
         
     }

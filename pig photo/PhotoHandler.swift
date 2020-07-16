@@ -13,7 +13,9 @@ class PhotoHandler {
     
     var isAuthorization = false
     
-    init() {
+    static let sharedInstance = PhotoHandler()
+    
+    private init() {
         requestAuthorization()
     }
     
