@@ -12,11 +12,12 @@ import UIKit
 
 class PhotoHandler {
     
-    var isAuthorization = false
-    
     static let sharedInstance = PhotoHandler()
     
     let imageManager = PHCachingImageManager()
+    
+    var collectPhoto:Set<String> = []
+    
     
     let imageRequestOption: PHImageRequestOptions = {
         let options = PHImageRequestOptions()
@@ -28,24 +29,28 @@ class PhotoHandler {
     }()
     
     
-    
     private init() {
-        requestAuthorization()
+        
     }
     
-    public func requestAuthorization() {
+    func requestAuthorization(success: @escaping() -> Void, faiure: (() -> Void)?) {
         PHPhotoLibrary.requestAuthorization {[weak self]  (status) in
             if status == PHAuthorizationStatus.authorized {
-                self?.isAuthorization = true
+                success()
+                self?.cachingImages()
             }else {
-                self?.isAuthorization = false
+                faiure?()
             }
         }
     }
     
-    func getAllPhotos() -> [Photo] {
+    func cachingImages() {
         let assets = PHAsset.fetchAssets(with: nil)
         imageManager.startCachingImages(for: assets.objects(at: .init()), targetSize: PhotoCollectionViewCell.cellsize(), contentMode: .aspectFill, options: imageRequestOption)
+    }
+    
+    func getAllPhotos() -> [Photo] {
+        let assets = PHAsset.fetchAssets(with: nil)
         var photos:[Photo] = []
         assets.enumerateObjects { (asset, index, stop) in
             let photo = Photo(asset: asset)
@@ -65,11 +70,20 @@ class PhotoHandler {
         return albums
     }
     
+    private func collectionPhotos() {
+        let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil);
+        collections.enumerateObjects { (collection, index, stop) in
+            let assets = PHAsset.fetchAssets(in: collection, options: nil)
+            assets.enumerateObjects { [weak self](asset, index, stop) in
+                self?.collectPhoto.insert(asset.localIdentifier)
+            }
+        }
+    }
+    
     func getUnCollectionPhotos() -> [Photo] {
         let photos = getAllPhotos()
-        let albums = getAllAlbums()
         return photos.filter { (photo) -> Bool in
-            check(photo: photo, unexist: albums)
+            !self.collectPhoto.contains(photo.assert.localIdentifier)
         }
     }
     
@@ -82,25 +96,6 @@ class PhotoHandler {
     
     func cancelRequestPhoto(requestID: PHImageRequestID) {
         imageManager.cancelImageRequest(requestID)
-    }
-    
-    private func check(photo: Photo, unexist albums:[Album]) -> Bool {
-        for album in albums {
-            let isInAlbum = check(photo: photo, in: album.photos)
-            if isInAlbum {
-                return false
-            }
-        }
-        return true
-    }
-    
-    private func check(photo: Photo, in album:[Photo]) -> Bool {
-        for ph in album {
-            if ph.assert.localIdentifier == photo.assert.localIdentifier {
-                return true
-            }
-        }
-        return false
     }
     
     func createAlbum(name: String) {

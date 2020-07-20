@@ -14,7 +14,10 @@ class PhotoViewController: UIViewController {
     private let cellIdentifier = "PhotoCell"
     private var photos: [Photo] = []{
         didSet{
-            collectionView.reloadData()
+            
+            collectionView.performBatchUpdates({
+                collectionView.reloadData()
+            }, completion: nil)
         }
     }
     
@@ -37,12 +40,12 @@ class PhotoViewController: UIViewController {
     }
     
     func refreshPhotos() {
-        DispatchQueue.global().async {
+        PhotoHandler.sharedInstance.requestAuthorization(success: {
             let newPhotos = PhotoHandler.sharedInstance.getUnCollectionPhotos()
             DispatchQueue.main.async {
                 self.photos = newPhotos
             }
-        }
+        },faiure: nil)
     }
     
     private func setupCollectionView() {

@@ -14,7 +14,9 @@ class AlbumViewController: UIViewController {
     
     var albums: [Album] = [] {
         didSet {
-            albumCollectionView.reloadData()
+            albumCollectionView.performBatchUpdates({
+                albumCollectionView.reloadData()
+            }, completion: nil)
         }
     }
     
@@ -40,12 +42,13 @@ class AlbumViewController: UIViewController {
     }
     
     func refreshAlbums() {
-        DispatchQueue.global().async {
+        PhotoHandler.sharedInstance.requestAuthorization(success: {
             let newalbums = PhotoHandler.sharedInstance.getAllAlbums()
             DispatchQueue.main.async {
                 self.albums = newalbums
             }
-        }
+        },faiure: nil)
+        
     }
     
     func setupCollectionView() {
