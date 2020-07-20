@@ -18,6 +18,16 @@ class PhotoHandler {
     
     let imageManager = PHCachingImageManager()
     
+    let imageRequestOption: PHImageRequestOptions = {
+        let options = PHImageRequestOptions()
+        options.isSynchronous = false
+        options.resizeMode = .exact
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        return options
+    }()
+    
+    
     
     private init() {
         requestAuthorization()
@@ -35,6 +45,7 @@ class PhotoHandler {
     
     func getAllPhotos() -> [Photo] {
         let assets = PHAsset.fetchAssets(with: nil)
+        imageManager.startCachingImages(for: assets.objects(at: .init()), targetSize: PhotoCollectionViewCell.cellsize(), contentMode: .aspectFill, options: imageRequestOption)
         var photos:[Photo] = []
         assets.enumerateObjects { (asset, index, stop) in
             let photo = Photo(asset: asset)
@@ -63,12 +74,7 @@ class PhotoHandler {
     }
     
     func fetchPhoto(assert: PHAsset, size: CGSize, resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
-        let options = PHImageRequestOptions()
-        options.isSynchronous = false
-        options.resizeMode = .fast
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        let requestID = imageManager.requestImage(for: assert, targetSize: size, contentMode: .aspectFill, options: options) {(image, info) in
+        let requestID = imageManager.requestImage(for: assert, targetSize: size, contentMode: .aspectFill, options: imageRequestOption) {(image, info) in
             resultHandler(image)
         }
         return requestID
