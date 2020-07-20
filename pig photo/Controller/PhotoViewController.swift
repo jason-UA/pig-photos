@@ -23,6 +23,7 @@ class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        title = "未分类照片"
         // Do any additional setup after loading the view.
     }
     
@@ -32,7 +33,7 @@ class PhotoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        photos = PhotoHandler.sharedInstance.getAllPhotos()
+        photos = PhotoHandler.sharedInstance.getUnCollectionPhotos()
     }
     
     private func setupCollectionView() {

@@ -25,6 +25,7 @@ class AlbumViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        title = "相册"
         // Do any additional setup after loading the view.
     }
     
@@ -35,16 +36,17 @@ class AlbumViewController: UIViewController {
     
     func setupView() {
         setupCollectionView()
+        setupCreateAlbumBtn()
     }
     
     func setupCollectionView() {
         view.addSubview(albumCollectionView)
         let layout = albumCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        let cellWidth = (UIScreen.main.bounds.width - 5*3) / 2
-        let cellHeight = cellWidth + 30
+        let cellWidth = (UIScreen.main.bounds.width - (20*2 + 10)) / 2
+        let cellHeight = cellWidth + 40
         layout.itemSize = CGSize.init(width: cellWidth, height: cellHeight)
-        layout.minimumLineSpacing = 5
-        layout.minimumInteritemSpacing = 5
+        layout.minimumInteritemSpacing = 10
+        layout.sectionInset = UIEdgeInsets.init(top: 20, left: 20, bottom: 20, right: 20)
         albumCollectionView.alwaysBounceVertical = true
         albumCollectionView.backgroundColor = UIColor.white
         albumCollectionView.delegate = self
@@ -53,6 +55,18 @@ class AlbumViewController: UIViewController {
         albumCollectionView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+    }
+    
+    func setupCreateAlbumBtn() {
+        let albumBtn = UIButton(type: .system)
+        albumBtn.setTitle("新增", for: .normal)
+        albumBtn.addTarget(self, action: #selector(albumClick), for: .touchUpInside)
+        let rightItem = UIBarButtonItem(customView: albumBtn)
+        self.navigationItem.rightBarButtonItem = rightItem
+    }
+    
+    @objc func albumClick() {
+        
     }
     
 }

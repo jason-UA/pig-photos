@@ -50,6 +50,33 @@ class PhotoHandler {
         return albums
     }
     
+    func getUnCollectionPhotos() -> [Photo] {
+        let photos = getAllPhotos()
+        let albums = getAllAlbums()
+        return photos.filter { (photo) -> Bool in
+            check(photo: photo, unexist: albums)
+        }
+    }
+    
+    func check(photo: Photo, unexist albums:[Album]) -> Bool {
+        for album in albums {
+            let isInAlbum = check(photo: photo, in: album.photos)
+            if isInAlbum {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func check(photo: Photo, in album:[Photo]) -> Bool {
+        for ph in album {
+            if ph.asset.localIdentifier == photo.asset.localIdentifier {
+                return true
+            }
+        }
+        return false
+    }
+    
     func createAlbum(name: String) {
         var isExist = false
         let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil);

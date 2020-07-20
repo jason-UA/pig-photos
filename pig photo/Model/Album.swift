@@ -11,8 +11,8 @@ import Photos
 
 class Album {
     
-    /// 相册里的数据
-    var fetchResult : PHFetchResult<PHAsset>
+    /// 相册里的照片
+    var photos:[Photo] = []
     /// 相册的封面
     var albumCover : PHAsset?
     /// 相册标题
@@ -27,12 +27,15 @@ class Album {
     ///   - title: 标题
     init(result:PHFetchResult<PHAsset>,title:String) {
         self.title = title
-        fetchResult = result
-        count = fetchResult.count
-        if fetchResult.count > 0 {
-            albumCover = fetchResult.firstObject
+        var photos:[Photo] = []
+        result.enumerateObjects {(asset, index, stop) in
+            let photo = Photo(asset: asset)
+            photos.append(photo)
         }
-        
+        self.photos = photos
+        albumCover = photos.first?.asset
+        self.title = title
+        self.count = photos.count
     }
     
 }

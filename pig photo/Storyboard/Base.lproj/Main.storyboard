@@ -76,7 +76,7 @@
         <scene sceneID="cuv-cr-po3">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pRo-Yd-eFO" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="相册" id="L9a-fL-Fhk"/>
+                    <tabBarItem key="tabBarItem" title="相册" image="album" id="L9a-fL-Fhk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Rxh-6Z-dh9">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -95,7 +95,7 @@
         <scene sceneID="FL2-Nu-m08">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="268-zD-VwZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="照片" id="Xlm-bG-lue"/>
+                    <tabBarItem key="tabBarItem" title="照片" image="photo" id="Xlm-bG-lue"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LeC-wp-HDg">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -111,4 +111,8 @@
             <point key="canvasLocation" x="463.768115942029" y="227.67857142857142"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="album" width="29" height="29"/>
+        <image name="photo" width="29" height="29"/>
+    </resources>
 </document>

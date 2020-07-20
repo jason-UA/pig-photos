@@ -89,6 +89,7 @@
 		9604E41C24C023470011AF77 /* pig photo */ = {
 			isa = PBXGroup;
 			children = (
+				96FAD31A24C13F5400A63E53 /* FlowLayout */,
 				9604E44224C04B550011AF77 /* Model */,
 				9604E44024C04AEE0011AF77 /* PhotoHandler.swift */,
 				9604E41D24C023470011AF77 /* AppDelegate.swift */,
@@ -145,6 +146,13 @@
 				9604E44524C04E600011AF77 /* Photo.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		96FAD31A24C13F5400A63E53 /* FlowLayout */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FlowLayout;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
