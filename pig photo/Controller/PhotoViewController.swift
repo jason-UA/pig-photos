@@ -33,15 +33,22 @@ class PhotoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        photos = PhotoHandler.sharedInstance.getUnCollectionPhotos()
+        refreshPhotos()
+    }
+    
+    func refreshPhotos() {
+        DispatchQueue.global().async {
+            let newPhotos = PhotoHandler.sharedInstance.getUnCollectionPhotos()
+            DispatchQueue.main.async {
+                self.photos = newPhotos
+            }
+        }
     }
     
     private func setupCollectionView() {
         view.addSubview(collectionView)
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        let cellWidth = (UIScreen.main.bounds.width - 2*3) / 4
-        let cellHeight = cellWidth
-        layout.itemSize = CGSize.init(width: cellWidth, height: cellHeight)
+        layout.itemSize = PhotoCollectionViewCell.cellsize()
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
         collectionView.alwaysBounceVertical = true
@@ -69,6 +76,16 @@ extension PhotoViewController:UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PhotoCollectionViewCell
         cell.photo = photos[indexPath.row]
         return cell
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? PhotoCollectionViewCell {
+            cell.cancelFetchPhoto()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
     }
     

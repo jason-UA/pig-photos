@@ -53,7 +53,7 @@ class AlbumCollectionViewCell: UICollectionViewCell {
             make.left.right.equalToSuperview()
             make.height.equalTo(20)
         }
-    
+        
     }
     
     private func refreshView() {
@@ -67,19 +67,20 @@ class AlbumCollectionViewCell: UICollectionViewCell {
             self.imageView.image = nil
             return
         }
-        let options = PHImageRequestOptions()
-        options.isSynchronous = false
-        options.resizeMode = .fast
-        options.isNetworkAccessAllowed = true
-        PHCachingImageManager.default().requestImage(for: assert, targetSize: CGSize(width: 50, height: 50), contentMode: .aspectFill, options: options) {[weak self] (image, info) in
+        PhotoHandler.sharedInstance.fetchPhoto(assert: assert, size: AlbumCollectionViewCell.cellsize()) {[weak self] (image) in
             self?.imageView.image = image
         }
-        
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    class func cellsize() -> CGSize {
+        let cellWidth = (UIScreen.main.bounds.width - (20*2 + 10)) / 2
+        let cellHeight = cellWidth + 40
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
     
 }

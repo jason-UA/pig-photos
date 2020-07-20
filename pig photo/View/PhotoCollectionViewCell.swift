@@ -14,6 +14,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     let imageView = UIImageView()
     
+    var reqeustID: PHImageRequestID?
+    
     var photo:Photo?{
         didSet{
             refreshView()
@@ -32,18 +34,34 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         
     }
     
-    func refreshView() {
-        let options = PHImageRequestOptions()
-        options.isSynchronous = false
-        options.resizeMode = .fast
-        options.isNetworkAccessAllowed = true
-        PHCachingImageManager.default().requestImage(for: photo!.asset, targetSize: CGSize(width: 50, height: 50), contentMode: .aspectFill, options: options) {[weak self] (image, info) in
-            self?.imageView.image = image
+    func cancelFetchPhoto() {
+        if let reqeustID = reqeustID {
+            PhotoHandler.sharedInstance.cancelRequestPhoto(requestID: reqeustID)
         }
+    }
+    
+    func refreshView() {
+        guard let assert = photo?.assert else {
+            self.imageView.image = nil
+            return
+        }
+//        self.imageView.image = self.photo?.cachePhoto
+        reqeustID = PhotoHandler.sharedInstance.fetchPhoto(assert: assert, size: PhotoCollectionViewCell.cellsize()) {[weak self] (image) in
+            if let image = image {
+                self?.imageView.image = image
+//                self?.photo?.cachePhoto = image
+            }
+        }
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    class func cellsize() -> CGSize {
+        let cellWidth = (UIScreen.main.bounds.width - 2*3) / 4
+        return CGSize(width: cellWidth, height: cellWidth)
     }
     
 }

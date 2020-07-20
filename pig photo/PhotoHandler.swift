@@ -8,12 +8,16 @@
 
 import Foundation
 import Photos
+import UIKit
 
 class PhotoHandler {
     
     var isAuthorization = false
     
     static let sharedInstance = PhotoHandler()
+    
+    let imageManager = PHCachingImageManager()
+    
     
     private init() {
         requestAuthorization()
@@ -58,7 +62,23 @@ class PhotoHandler {
         }
     }
     
-    func check(photo: Photo, unexist albums:[Album]) -> Bool {
+    func fetchPhoto(assert: PHAsset, size: CGSize, resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
+        let options = PHImageRequestOptions()
+        options.isSynchronous = false
+        options.resizeMode = .fast
+        options.deliveryMode = .highQualityFormat
+        options.isNetworkAccessAllowed = true
+        let requestID = imageManager.requestImage(for: assert, targetSize: size, contentMode: .aspectFill, options: options) {(image, info) in
+            resultHandler(image)
+        }
+        return requestID
+    }
+    
+    func cancelRequestPhoto(requestID: PHImageRequestID) {
+        imageManager.cancelImageRequest(requestID)
+    }
+    
+    private func check(photo: Photo, unexist albums:[Album]) -> Bool {
         for album in albums {
             let isInAlbum = check(photo: photo, in: album.photos)
             if isInAlbum {
@@ -68,9 +88,9 @@ class PhotoHandler {
         return true
     }
     
-    func check(photo: Photo, in album:[Photo]) -> Bool {
+    private func check(photo: Photo, in album:[Photo]) -> Bool {
         for ph in album {
-            if ph.asset.localIdentifier == photo.asset.localIdentifier {
+            if ph.assert.localIdentifier == photo.assert.localIdentifier {
                 return true
             }
         }

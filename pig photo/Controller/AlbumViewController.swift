@@ -31,7 +31,7 @@ class AlbumViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        albums = PhotoHandler.sharedInstance.getAllAlbums()
+        refreshAlbums()
     }
     
     func setupView() {
@@ -39,12 +39,19 @@ class AlbumViewController: UIViewController {
         setupCreateAlbumBtn()
     }
     
+    func refreshAlbums() {
+        DispatchQueue.global().async {
+            let newalbums = PhotoHandler.sharedInstance.getAllAlbums()
+            DispatchQueue.main.async {
+                self.albums = newalbums
+            }
+        }
+    }
+    
     func setupCollectionView() {
         view.addSubview(albumCollectionView)
         let layout = albumCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        let cellWidth = (UIScreen.main.bounds.width - (20*2 + 10)) / 2
-        let cellHeight = cellWidth + 40
-        layout.itemSize = CGSize.init(width: cellWidth, height: cellHeight)
+        layout.itemSize = AlbumCollectionViewCell.cellsize()
         layout.minimumInteritemSpacing = 10
         layout.sectionInset = UIEdgeInsets.init(top: 20, left: 20, bottom: 20, right: 20)
         albumCollectionView.alwaysBounceVertical = true
