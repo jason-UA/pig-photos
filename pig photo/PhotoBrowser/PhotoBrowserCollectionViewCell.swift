@@ -38,7 +38,9 @@ class PhotoBrowserCollectionViewCell: UICollectionViewCell {
             return
         }
         reqeustID = PhotoHandler.sharedInstance.fetchPhoto(assert: asset, size: PhotoBrowserCollectionViewCell.cellsize()) {[weak self] (image) in
-            self?.imageView.image = image
+            if let image = image {
+              self?.imageView.image = image
+            }
         }
     }
     

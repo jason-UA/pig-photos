@@ -23,6 +23,8 @@
 		961A0FE724C67DA5001CB89F /* AlbumPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A0FE624C67DA5001CB89F /* AlbumPhotoViewController.swift */; };
 		96AE887624C6C1C100A690FD /* PhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AE887524C6C1C100A690FD /* PhotoBrowserViewController.swift */; };
 		96AE887824C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AE887724C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift */; };
+		96AE887B24C6E8D100A690FD /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AE887A24C6E8D100A690FD /* PhotoPickerViewController.swift */; };
+		96AE887D24C6E8EC00A690FD /* PhotoPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AE887C24C6E8EC00A690FD /* PhotoPickerCollectionViewCell.swift */; };
 		ECABD62424C07C6800128BEF /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECABD62324C07C6800128BEF /* AlbumCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +60,8 @@
 		961A0FE624C67DA5001CB89F /* AlbumPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPhotoViewController.swift; sourceTree = "<group>"; };
 		96AE887524C6C1C100A690FD /* PhotoBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBrowserViewController.swift; sourceTree = "<group>"; };
 		96AE887724C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBrowserCollectionViewCell.swift; sourceTree = "<group>"; };
+		96AE887A24C6E8D100A690FD /* PhotoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewController.swift; sourceTree = "<group>"; };
+		96AE887C24C6E8EC00A690FD /* PhotoPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerCollectionViewCell.swift; sourceTree = "<group>"; };
 		ECABD62324C07C6800128BEF /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +97,7 @@
 		9604E41C24C023470011AF77 /* pig photo */ = {
 			isa = PBXGroup;
 			children = (
+				96AE887924C6E89E00A690FD /* PhotoPicker */,
 				96AE887424C6C19600A690FD /* PhotoBrowser */,
 				9604E44224C04B550011AF77 /* Model */,
 				9604E44024C04AEE0011AF77 /* PhotoHandler.swift */,
@@ -159,6 +164,15 @@
 				96AE887724C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift */,
 			);
 			path = PhotoBrowser;
+			sourceTree = "<group>";
+		};
+		96AE887924C6E89E00A690FD /* PhotoPicker */ = {
+			isa = PBXGroup;
+			children = (
+				96AE887A24C6E8D100A690FD /* PhotoPickerViewController.swift */,
+				96AE887C24C6E8EC00A690FD /* PhotoPickerCollectionViewCell.swift */,
+			);
+			path = PhotoPicker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +258,8 @@
 				9604E42024C023470011AF77 /* SceneDelegate.swift in Sources */,
 				9604E43524C03A700011AF77 /* PhotoViewController.swift in Sources */,
 				9604E43F24C0451B0011AF77 /* PhotoCollectionViewCell.swift in Sources */,
+				96AE887D24C6E8EC00A690FD /* PhotoPickerCollectionViewCell.swift in Sources */,
+				96AE887B24C6E8D100A690FD /* PhotoPickerViewController.swift in Sources */,
 				9604E44424C04B880011AF77 /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

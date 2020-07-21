@@ -17,7 +17,6 @@ class AlbumPhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupCollectionView()
         // Do any additional setup after loading the view.
     }
@@ -34,17 +33,18 @@ class AlbumPhotoViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupAdditionBtn() {
+        let albumBtn = UIButton(type: .system)
+        albumBtn.setTitle("添加", for: .normal)
+        albumBtn.addTarget(self, action: #selector(additionClick), for: .touchUpInside)
+        let rightItem = UIBarButtonItem(customView: albumBtn)
+        self.navigationItem.rightBarButtonItem = rightItem
+    }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    @objc func additionClick() {
+        
+    }
+
     private func setupCollectionView() {
         view.addSubview(photoCollectionView)
         let layout = photoCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -75,19 +75,19 @@ extension AlbumPhotoViewController:UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.cellIdentifier, for: indexPath) as! PhotoCollectionViewCell
         cell.photo = photos[indexPath.row]
+        cell.refreshView()
         return cell
         
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-         if let cell = cell as? PhotoCollectionViewCell {
-             cell.refreshView()
-         }
-     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? PhotoCollectionViewCell {
             cell.cancelFetchPhoto()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+         let photoBrowserViewController = PhotoBrowserViewController(photos: photos, currentPage: indexPath.row)
+         self.navigationController?.pushViewController(photoBrowserViewController, animated: true)
+     }
 }

@@ -19,6 +19,8 @@ class AlbumViewController: UIViewController {
         }
     }
     
+    var okAction:UIAlertAction?
+    
     
     let albumCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -68,14 +70,30 @@ class AlbumViewController: UIViewController {
     
     func setupCreateAlbumBtn() {
         let albumBtn = UIButton(type: .system)
-        albumBtn.setTitle("新增", for: .normal)
+        albumBtn.setTitle("新建", for: .normal)
         albumBtn.addTarget(self, action: #selector(albumClick), for: .touchUpInside)
         let rightItem = UIBarButtonItem(customView: albumBtn)
         self.navigationItem.rightBarButtonItem = rightItem
     }
     
     @objc func albumClick() {
-        
+        let alertController = UIAlertController.init(title: "创建相册", message: "请为此相册输入名称", preferredStyle: .alert)
+        alertController.addTextField { (textfield) in
+            textfield.placeholder = "标题"
+            textfield.keyboardType = .asciiCapable
+        }
+        let cancel = UIAlertAction.init(title: "取消", style: .cancel, handler: nil)
+        okAction = UIAlertAction(title: "确定", style: .default) { (alertAction) in
+            if let title = alertController.textFields?.first?.text {
+                PhotoHandler.sharedInstance.createAlbum(name: title)
+                self.refreshAlbums()
+            }
+        }
+        okAction?.isEnabled = false
+        alertController.textFields?.first?.delegate = self
+        alertController.addAction(cancel)
+        alertController.addAction(okAction!)
+        present(alertController, animated: true, completion: nil)
     }
     
 }
@@ -101,4 +119,12 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     
     
+}
+
+extension AlbumViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        okAction?.isEnabled = textField.text?.count ?? 0 > 0
+        return true
+    }
 }
