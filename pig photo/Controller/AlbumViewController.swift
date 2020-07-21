@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 class AlbumViewController: UIViewController {
-    let albumCollectionCellIdenrigier = "albumCollectionCell"
     
     var albums: [Album] = [] {
         didSet {
@@ -61,7 +60,7 @@ class AlbumViewController: UIViewController {
         albumCollectionView.backgroundColor = UIColor.white
         albumCollectionView.delegate = self
         albumCollectionView.dataSource = self
-        albumCollectionView.register(AlbumCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: albumCollectionCellIdenrigier)
+        albumCollectionView.register(AlbumCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: AlbumCollectionViewCell.cellIdentifier)
         albumCollectionView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
@@ -82,14 +81,22 @@ class AlbumViewController: UIViewController {
 }
 
 extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return albums.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: albumCollectionCellIdenrigier, for: indexPath) as! AlbumCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCollectionViewCell.cellIdentifier, for: indexPath) as! AlbumCollectionViewCell
         cell.album = albums[indexPath.row]
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let album = albums[indexPath.row]
+        let alphotoController = AlbumPhotoViewController(photos: album.photos, title: album.title)
+        self.navigationController?.pushViewController(alphotoController, animated: true)
+        
     }
     
     

@@ -12,10 +12,10 @@ import Photos
 class Photo {
     
     /// 图片集合
-    var assert:PHAsset
+    var asset:PHAsset
     
     public init(asset:PHAsset) {
-        self.assert = asset
+        self.asset = asset
     }
 
 }

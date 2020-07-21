@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9604E41E24C023470011AF77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9604E41D24C023470011AF77 /* AppDelegate.swift */; };
 		9604E42024C023470011AF77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9604E41F24C023470011AF77 /* SceneDelegate.swift */; };
-		9604E42224C023470011AF77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9604E42124C023470011AF77 /* ViewController.swift */; };
 		9604E42524C023470011AF77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9604E42324C023470011AF77 /* Main.storyboard */; };
 		9604E42724C0234A0011AF77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9604E42624C0234A0011AF77 /* Assets.xcassets */; };
 		9604E42A24C0234A0011AF77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9604E42824C0234A0011AF77 /* LaunchScreen.storyboard */; };
@@ -21,6 +20,9 @@
 		9604E44124C04AEE0011AF77 /* PhotoHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9604E44024C04AEE0011AF77 /* PhotoHandler.swift */; };
 		9604E44424C04B880011AF77 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9604E44324C04B880011AF77 /* Album.swift */; };
 		9604E44624C04E600011AF77 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9604E44524C04E600011AF77 /* Photo.swift */; };
+		961A0FE724C67DA5001CB89F /* AlbumPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961A0FE624C67DA5001CB89F /* AlbumPhotoViewController.swift */; };
+		96AE887624C6C1C100A690FD /* PhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AE887524C6C1C100A690FD /* PhotoBrowserViewController.swift */; };
+		96AE887824C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AE887724C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift */; };
 		ECABD62424C07C6800128BEF /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECABD62324C07C6800128BEF /* AlbumCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +44,6 @@
 		9604E41A24C023470011AF77 /* pig photo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pig photo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9604E41D24C023470011AF77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9604E41F24C023470011AF77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9604E42124C023470011AF77 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9604E42424C023470011AF77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9604E42624C0234A0011AF77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9604E42924C0234A0011AF77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +55,9 @@
 		9604E44024C04AEE0011AF77 /* PhotoHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoHandler.swift; sourceTree = "<group>"; };
 		9604E44324C04B880011AF77 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		9604E44524C04E600011AF77 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		961A0FE624C67DA5001CB89F /* AlbumPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPhotoViewController.swift; sourceTree = "<group>"; };
+		96AE887524C6C1C100A690FD /* PhotoBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBrowserViewController.swift; sourceTree = "<group>"; };
+		96AE887724C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBrowserCollectionViewCell.swift; sourceTree = "<group>"; };
 		ECABD62324C07C6800128BEF /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,7 +93,7 @@
 		9604E41C24C023470011AF77 /* pig photo */ = {
 			isa = PBXGroup;
 			children = (
-				96FAD31A24C13F5400A63E53 /* FlowLayout */,
+				96AE887424C6C19600A690FD /* PhotoBrowser */,
 				9604E44224C04B550011AF77 /* Model */,
 				9604E44024C04AEE0011AF77 /* PhotoHandler.swift */,
 				9604E41D24C023470011AF77 /* AppDelegate.swift */,
@@ -106,9 +110,9 @@
 		9604E43124C039F30011AF77 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				9604E42124C023470011AF77 /* ViewController.swift */,
 				9604E43224C03A580011AF77 /* AlbumViewController.swift */,
 				9604E43424C03A700011AF77 /* PhotoViewController.swift */,
+				961A0FE624C67DA5001CB89F /* AlbumPhotoViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -148,11 +152,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		96FAD31A24C13F5400A63E53 /* FlowLayout */ = {
+		96AE887424C6C19600A690FD /* PhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				96AE887524C6C1C100A690FD /* PhotoBrowserViewController.swift */,
+				96AE887724C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift */,
 			);
-			path = FlowLayout;
+			path = PhotoBrowser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,11 +234,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9604E43324C03A580011AF77 /* AlbumViewController.swift in Sources */,
-				9604E42224C023470011AF77 /* ViewController.swift in Sources */,
+				961A0FE724C67DA5001CB89F /* AlbumPhotoViewController.swift in Sources */,
 				9604E41E24C023470011AF77 /* AppDelegate.swift in Sources */,
 				9604E44624C04E600011AF77 /* Photo.swift in Sources */,
+				96AE887824C6C1F200A690FD /* PhotoBrowserCollectionViewCell.swift in Sources */,
 				9604E44124C04AEE0011AF77 /* PhotoHandler.swift in Sources */,
 				ECABD62424C07C6800128BEF /* AlbumCollectionViewCell.swift in Sources */,
+				96AE887624C6C1C100A690FD /* PhotoBrowserViewController.swift in Sources */,
 				9604E42024C023470011AF77 /* SceneDelegate.swift in Sources */,
 				9604E43524C03A700011AF77 /* PhotoViewController.swift in Sources */,
 				9604E43F24C0451B0011AF77 /* PhotoCollectionViewCell.swift in Sources */,
@@ -380,8 +388,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7NSJ97T9A3;
+				DEVELOPMENT_TEAM = L6P3E2LN8Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -393,8 +402,9 @@
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.harman.pig-photo";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.har.pig-photo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -404,8 +414,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7NSJ97T9A3;
+				DEVELOPMENT_TEAM = L6P3E2LN8Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -417,8 +428,9 @@
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.harman.pig-photo";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.har.pig-photo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

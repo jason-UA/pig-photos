@@ -12,14 +12,7 @@ import SnapKit
 class PhotoViewController: UIViewController {
     
     private let cellIdentifier = "PhotoCell"
-    private var photos: [Photo] = []{
-        didSet{
-            
-            collectionView.performBatchUpdates({
-                collectionView.reloadData()
-            }, completion: nil)
-        }
-    }
+    private var photos: [Photo] = []
     
     private let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -41,9 +34,11 @@ class PhotoViewController: UIViewController {
     
     func refreshPhotos() {
         PhotoHandler.sharedInstance.requestAuthorization(success: {
-            let newPhotos = PhotoHandler.sharedInstance.getUnCollectionPhotos()
+            self.photos = PhotoHandler.sharedInstance.getUnCollectionPhotos()
             DispatchQueue.main.async {
-                self.photos = newPhotos
+                self.collectionView.performBatchUpdates({
+                self.collectionView.reloadData()
+                }, completion: nil)
             }
         },faiure: nil)
     }
@@ -78,6 +73,7 @@ extension PhotoViewController:UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PhotoCollectionViewCell
         cell.photo = photos[indexPath.row]
+        cell.refreshView()
         return cell
         
     }
@@ -86,5 +82,10 @@ extension PhotoViewController:UICollectionViewDelegate, UICollectionViewDataSour
         if let cell = cell as? PhotoCollectionViewCell {
             cell.cancelFetchPhoto()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photoBrowserViewController = PhotoBrowserViewController(photos: photos, currentPage: indexPath.row)
+        self.navigationController?.pushViewController(photoBrowserViewController, animated: true)
     }
 }

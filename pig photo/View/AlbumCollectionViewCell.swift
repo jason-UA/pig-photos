@@ -12,7 +12,7 @@ import SnapKit
 
 class AlbumCollectionViewCell: UICollectionViewCell {
     
-    
+    static let cellIdentifier = "AlbumCellIdentifier"
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
     private let countLabel = UILabel()

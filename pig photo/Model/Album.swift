@@ -33,7 +33,7 @@ class Album {
             photos.append(photo)
         }
         self.photos = photos
-        albumCover = photos.first?.assert
+        albumCover = photos.first?.asset
         self.title = title
         self.count = photos.count
     }

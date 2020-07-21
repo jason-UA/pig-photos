@@ -18,12 +18,14 @@ class PhotoHandler {
     
     var collectPhoto:Set<String> = []
     
+    var isAuthorized = false
+    
     
     let imageRequestOption: PHImageRequestOptions = {
         let options = PHImageRequestOptions()
         options.isSynchronous = false
         options.resizeMode = .exact
-        options.deliveryMode = .highQualityFormat
+        options.deliveryMode = .opportunistic
         options.isNetworkAccessAllowed = true
         return options
     }()
@@ -36,17 +38,25 @@ class PhotoHandler {
     func requestAuthorization(success: @escaping() -> Void, faiure: (() -> Void)?) {
         PHPhotoLibrary.requestAuthorization {[weak self]  (status) in
             if status == PHAuthorizationStatus.authorized {
+                if !self!.isAuthorized {
+                    self?.cachingImages(size: PhotoCollectionViewCell.cellsize(), assets: PHAsset.fetchAssets(with: nil).objects(at: .init()))
+                    self?.collectionPhotos()
+                }
+                self?.isAuthorized = true
                 success()
-                self?.cachingImages()
             }else {
                 faiure?()
             }
         }
     }
     
-    func cachingImages() {
-        let assets = PHAsset.fetchAssets(with: nil)
-        imageManager.startCachingImages(for: assets.objects(at: .init()), targetSize: PhotoCollectionViewCell.cellsize(), contentMode: .aspectFill, options: imageRequestOption)
+    func scaleSize(size: CGSize) -> CGSize {
+        let scale = UIScreen.main.scale
+        return CGSize(width: size.width * scale, height: size.height * scale)
+    }
+    
+    func cachingImages(size: CGSize, assets: [PHAsset]) {
+        imageManager.startCachingImages(for: assets, targetSize: scaleSize(size: size) , contentMode: .aspectFill, options: imageRequestOption)
     }
     
     func getAllPhotos() -> [Photo] {
@@ -83,12 +93,12 @@ class PhotoHandler {
     func getUnCollectionPhotos() -> [Photo] {
         let photos = getAllPhotos()
         return photos.filter { (photo) -> Bool in
-            !self.collectPhoto.contains(photo.assert.localIdentifier)
+            !self.collectPhoto.contains(photo.asset.localIdentifier)
         }
     }
     
     func fetchPhoto(assert: PHAsset, size: CGSize, resultHandler: @escaping (UIImage?) -> Void) -> PHImageRequestID {
-        let requestID = imageManager.requestImage(for: assert, targetSize: size, contentMode: .aspectFill, options: imageRequestOption) {(image, info) in
+        let requestID = imageManager.requestImage(for: assert, targetSize: scaleSize(size: size), contentMode: .aspectFit, options: imageRequestOption) {(image, info) in
             resultHandler(image)
         }
         return requestID
