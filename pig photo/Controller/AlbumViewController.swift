@@ -77,6 +77,7 @@ class AlbumViewController: UIViewController {
     }
     
     @objc func albumClick() {
+        
         let alertController = UIAlertController.init(title: "创建相册", message: "请为此相册输入名称", preferredStyle: .alert)
         alertController.addTextField { (textfield) in
             textfield.placeholder = "标题"

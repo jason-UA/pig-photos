@@ -18,6 +18,7 @@ class AlbumPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setupAdditionBtn()
         // Do any additional setup after loading the view.
     }
     
@@ -36,12 +37,17 @@ class AlbumPhotoViewController: UIViewController {
     func setupAdditionBtn() {
         let albumBtn = UIButton(type: .system)
         albumBtn.setTitle("添加", for: .normal)
+        albumBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         albumBtn.addTarget(self, action: #selector(additionClick), for: .touchUpInside)
         let rightItem = UIBarButtonItem(customView: albumBtn)
         self.navigationItem.rightBarButtonItem = rightItem
     }
     
     @objc func additionClick() {
+        let photoPickerViewController = PhotoPickerViewController(name: title!)
+//        let navigationController = UINavigationController(rootViewController: photoPickerViewController)
+        
+        self.present(photoPickerViewController, animated: true, completion: nil)
         
     }
 

@@ -82,7 +82,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
     
     class func cellsize() -> CGSize {
-        let cellWidth = (UIScreen.main.bounds.width - 2*3) / 4
+        let cellWidth = (UIScreen.main.bounds.width - 2*2) / 3
         return CGSize(width: cellWidth, height: cellWidth)
     }
     

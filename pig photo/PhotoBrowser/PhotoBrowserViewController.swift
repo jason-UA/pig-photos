@@ -53,7 +53,7 @@ class PhotoBrowserViewController: UIViewController {
             make.edges.equalToSuperview()
         }
         cachingImages()
-        
+        photoBrowserCollectionView.setContentOffset(CGPoint(x: currentPage * Int(PhotoBrowserCollectionViewCell.cellsize().width), y: 0) , animated: false)
     }
     
     func cachingImages() {
