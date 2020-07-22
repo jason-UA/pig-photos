@@ -19,7 +19,7 @@ class Album {
     /// 相册标题
     var title : String
     /// 相册的照片个数
-    var count : Int
+    var count : Int = 0
     
     /// 初始化方法
     ///
@@ -29,15 +29,19 @@ class Album {
     init(collection: PHAssetCollection) {
         self.title = collection.localizedTitle ?? ""
         self.collection = collection
+        refreshPhotos()
+    }
+    
+    func refreshPhotos() {
         var photos:[Photo] = []
-        let assets = PHAsset.fetchAssets(in: collection, options: nil)
-        assets.enumerateObjects {(asset, index, stop) in
-            let photo = Photo(asset: asset)
-            photos.append(photo)
-        }
+              let assets = PHAsset.fetchAssets(in: collection, options: nil)
+              assets.enumerateObjects {(asset, index, stop) in
+                  let photo = Photo(asset: asset)
+                  photos.append(photo)
+              }
         self.photos = photos
         albumCover = photos.first?.asset
-        self.count = photos.count
+        count = photos.count
     }
     
 }

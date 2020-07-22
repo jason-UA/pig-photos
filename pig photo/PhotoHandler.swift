@@ -125,6 +125,14 @@ class PhotoHandler {
         }
     }
     
+    func insertPhotosTo(album: Album, photos:[Photo]) {
+        PHPhotoLibrary.shared().performChanges({
+            let request = PHAssetCollectionChangeRequest(for: album.collection)
+            let assets = PHAsset.fetchAssets(withLocalIdentifiers: photos.map({$0.asset.localIdentifier}), options: nil)
+            request?.addAssets(assets)
+        }, completionHandler: nil)
+    }
+    
     
     
 }

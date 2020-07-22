@@ -86,7 +86,7 @@ class PhotoPickerViewController: UIViewController {
     }
     
     @objc func doneClick() {
-        
+        PhotoHandler.sharedInstance.insertPhotosTo(album: album, photos: Array(pickedPhotos))
         dismiss(animated: true, completion: nil)
     }
     

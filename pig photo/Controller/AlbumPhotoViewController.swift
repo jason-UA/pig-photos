@@ -12,17 +12,9 @@ class AlbumPhotoViewController: UIViewController {
     
     private let album: Album
     
-    private let photos: [Photo]
+    private var photos: [Photo]
     
     private let photoCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupCollectionView()
-        setupAdditionBtn()
-        // Do any additional setup after loading the view.
-    }
     
     init(album: Album) {
         self.album = album
@@ -36,6 +28,24 @@ class AlbumPhotoViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupCollectionView()
+        setupAdditionBtn()
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        album.refreshPhotos()
+        photos = album.photos
+        photoCollectionView.performBatchUpdates({
+        photoCollectionView.reloadData()
+        }, completion: nil)
+    }
+
+
     
     func setupAdditionBtn() {
         let albumBtn = UIButton(type: .system)
