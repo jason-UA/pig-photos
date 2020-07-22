@@ -36,10 +36,10 @@ class PhotoViewController: UIViewController {
         PhotoHandler.sharedInstance.requestAuthorization(success: {
             self.photos = PhotoHandler.sharedInstance.getUnCollectionPhotos()
             DispatchQueue.main.async {
-                self.collectionView.performBatchUpdates({
-                self.collectionView.reloadData()
-                }, completion: nil)
+               self.collectionView.reloadData()
             }
+            
+            
         },faiure: nil)
     }
     

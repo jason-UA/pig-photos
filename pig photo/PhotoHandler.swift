@@ -125,12 +125,17 @@ class PhotoHandler {
         }
     }
     
-    func insertPhotosTo(album: Album, photos:[Photo]) {
+    func insertPhotosTo(album: Album, photos:[Photo],completion: @escaping PickerPhotoHandler) {
         PHPhotoLibrary.shared().performChanges({
             let request = PHAssetCollectionChangeRequest(for: album.collection)
             let assets = PHAsset.fetchAssets(withLocalIdentifiers: photos.map({$0.asset.localIdentifier}), options: nil)
             request?.addAssets(assets)
-        }, completionHandler: nil)
+        }, completionHandler: {[weak self] success, error in
+            for photo in photos {
+                self?.collectPhoto.insert(photo.asset.localIdentifier)
+            }
+            completion(photos)
+        })
     }
     
     

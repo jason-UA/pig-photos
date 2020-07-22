@@ -8,7 +8,11 @@
 
 import UIKit
 
+typealias PickerPhotoHandler = ([Photo]) -> Void
+
 class PhotoPickerViewController: UIViewController {
+    
+    
     
     lazy var photoPickerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -35,9 +39,12 @@ class PhotoPickerViewController: UIViewController {
     
     var pickedPhotos: Set<Photo> = []
     
-    init(album: Album) {
+    let handler: PickerPhotoHandler
+    
+    init(album: Album, handler: @escaping PickerPhotoHandler) {
         self.album = album
         albumTitle = album.title
+        self.handler = handler
         super.init(nibName: nil, bundle: nil)
         title = "选择照片"
         let doneButton = UIButton(type: .system)
@@ -86,7 +93,7 @@ class PhotoPickerViewController: UIViewController {
     }
     
     @objc func doneClick() {
-        PhotoHandler.sharedInstance.insertPhotosTo(album: album, photos: Array(pickedPhotos))
+        PhotoHandler.sharedInstance.insertPhotosTo(album: album, photos: Array(pickedPhotos), completion: handler)
         dismiss(animated: true, completion: nil)
     }
     

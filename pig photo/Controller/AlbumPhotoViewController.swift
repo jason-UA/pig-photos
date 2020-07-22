@@ -38,14 +38,18 @@ class AlbumPhotoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        album.refreshPhotos()
-        photos = album.photos
-        photoCollectionView.performBatchUpdates({
-        photoCollectionView.reloadData()
-        }, completion: nil)
+        
     }
-
-
+    
+    //    func refresh() {
+    //        album.refreshPhotos()
+    //        photos = album.photos
+    //        photoCollectionView.performBatchUpdates({
+    //            photoCollectionView.reloadData()
+    //        }, completion: nil)
+    //    }
+    
+    
     
     func setupAdditionBtn() {
         let albumBtn = UIButton(type: .system)
@@ -57,12 +61,19 @@ class AlbumPhotoViewController: UIViewController {
     }
     
     @objc func additionClick() {
-        let photoPickerViewController = PhotoPickerViewController(album: album)
+        let photoPickerViewController = PhotoPickerViewController(album: album) {[weak self] (photos) in
+            DispatchQueue.main.async {
+                self?.photos.append(contentsOf: photos)
+                self?.photoCollectionView.performBatchUpdates({
+                    self?.photoCollectionView.reloadData()
+                }, completion: nil)
+            }
+        }
         let navigationController = UINavigationController(rootViewController: photoPickerViewController)
         self.present(navigationController, animated: true, completion: nil)
         
     }
-
+    
     private func setupCollectionView() {
         view.addSubview(photoCollectionView)
         let layout = photoCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -97,7 +108,7 @@ extension AlbumPhotoViewController:UICollectionViewDelegate, UICollectionViewDat
         return cell
         
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? PhotoCollectionViewCell {
             cell.cancelFetchPhoto()
@@ -105,7 +116,7 @@ extension AlbumPhotoViewController:UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-         let photoBrowserViewController = PhotoBrowserViewController(photos: photos, currentPage: indexPath.row)
-         self.navigationController?.pushViewController(photoBrowserViewController, animated: true)
-     }
+        let photoBrowserViewController = PhotoBrowserViewController(photos: photos, currentPage: indexPath.row)
+        self.navigationController?.pushViewController(photoBrowserViewController, animated: true)
+    }
 }

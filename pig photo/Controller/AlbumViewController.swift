@@ -11,13 +11,7 @@ import SnapKit
 
 class AlbumViewController: UIViewController {
     
-    var albums: [Album] = [] {
-        didSet {
-            albumCollectionView.performBatchUpdates({
-                albumCollectionView.reloadData()
-            }, completion: nil)
-        }
-    }
+    var albums: [Album] = []
     
     var okAction:UIAlertAction?
     
@@ -45,6 +39,7 @@ class AlbumViewController: UIViewController {
             let newalbums = PhotoHandler.sharedInstance.getAllAlbums()
             DispatchQueue.main.async {
                 self.albums = newalbums
+                self.albumCollectionView.reloadData()
             }
         },faiure: nil)
         

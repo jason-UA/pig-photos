@@ -11,7 +11,7 @@ import Photos
 
 class Album {
     
-    let collection: PHAssetCollection
+    var collection: PHAssetCollection
     /// 相册里的照片
     var photos:[Photo] = []
     /// 相册的封面
@@ -19,7 +19,11 @@ class Album {
     /// 相册标题
     var title : String
     /// 相册的照片个数
-    var count : Int = 0
+    var count : Int {
+        get {
+            photos.count
+        }
+    }
     
     /// 初始化方法
     ///
@@ -41,7 +45,6 @@ class Album {
               }
         self.photos = photos
         albumCover = photos.first?.asset
-        count = photos.count
     }
     
 }
