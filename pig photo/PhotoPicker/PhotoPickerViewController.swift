@@ -27,17 +27,19 @@ class PhotoPickerViewController: UIViewController {
         return collectionView
     }()
     
-    let albumName: String
+    let albumTitle: String
+    
+    let album: Album
     
     let photos = PhotoHandler.sharedInstance.getUnCollectionPhotos()
     
+    var pickedPhotos: Set<Photo> = []
     
-    
-    init(name: String) {
-        albumName = name
+    init(album: Album) {
+        self.album = album
+        albumTitle = album.title
         super.init(nibName: nil, bundle: nil)
         title = "选择照片"
-        navigationItem.prompt = "将照片添加到\"\(name)\"。"
         let doneButton = UIButton(type: .system)
         doneButton.setTitle("完成", for: .normal)
         doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -56,6 +58,7 @@ class PhotoPickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        refreshPrompt()
     }
     
     func setupCollectionView() {
@@ -65,12 +68,30 @@ class PhotoPickerViewController: UIViewController {
         }
     }
     
+    func pick(photo: Photo) {
+        if photo.isPicked {
+            pickedPhotos.insert(photo)
+        } else {
+            pickedPhotos.remove(photo)
+        }
+    }
+    
+    func refreshPrompt() {
+        let count = pickedPhotos.count
+        if count == 0 {
+            navigationItem.prompt = "将照片添加到\"\(albumTitle)\"。"
+        }else {
+            navigationItem.prompt = "将\(count)张照片添加到\"\(albumTitle)\"。"
+        }
+    }
+    
     @objc func doneClick() {
         
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func cancelClick() {
-        
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -98,6 +119,8 @@ extension PhotoPickerViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photo = photos[indexPath.row]
         photo.isPicked = !photo.isPicked
+        pick(photo: photo)
+        refreshPrompt()
         collectionView.performBatchUpdates({
             collectionView.reloadItems(at: [indexPath])
         }, completion: nil)

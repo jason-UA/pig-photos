@@ -73,8 +73,7 @@ class PhotoHandler {
         let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil);
         var albums:[Album] = []
         collections.enumerateObjects { (collection, index, stop) in
-            let assets = PHAsset.fetchAssets(in: collection, options: nil)
-            let album = Album(result: assets, title: collection.localizedTitle ?? "unnamed!")
+            let album = Album(collection: collection)
             albums.append(album)
         }
         return albums

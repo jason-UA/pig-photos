@@ -10,6 +10,8 @@ import UIKit
 
 class AlbumPhotoViewController: UIViewController {
     
+    private let album: Album
+    
     private let photos: [Photo]
     
     private let photoCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -22,11 +24,12 @@ class AlbumPhotoViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    init(photos: [Photo], title: String) {
-        self.photos = photos
+    init(album: Album) {
+        self.album = album
+        self.photos = album.photos
         super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
-        self.title = title
+        self.title = album.title
         
     }
     
@@ -44,9 +47,8 @@ class AlbumPhotoViewController: UIViewController {
     }
     
     @objc func additionClick() {
-        let photoPickerViewController = PhotoPickerViewController(name: title!)
+        let photoPickerViewController = PhotoPickerViewController(album: album)
         let navigationController = UINavigationController(rootViewController: photoPickerViewController)
-        
         self.present(navigationController, animated: true, completion: nil)
         
     }

@@ -21,9 +21,7 @@ class AlbumViewController: UIViewController {
     
     var okAction:UIAlertAction?
     
-    
     let albumCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +69,7 @@ class AlbumViewController: UIViewController {
     func setupCreateAlbumBtn() {
         let albumBtn = UIButton(type: .system)
         albumBtn.setTitle("新建", for: .normal)
+        albumBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         albumBtn.addTarget(self, action: #selector(albumClick), for: .touchUpInside)
         let rightItem = UIBarButtonItem(customView: albumBtn)
         self.navigationItem.rightBarButtonItem = rightItem
@@ -113,13 +112,11 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let album = albums[indexPath.row]
-        let alphotoController = AlbumPhotoViewController(photos: album.photos, title: album.title)
+        let alphotoController = AlbumPhotoViewController(album: album)
         self.navigationController?.pushViewController(alphotoController, animated: true)
         
     }
-    
-    
-    
+
 }
 
 extension AlbumViewController: UITextFieldDelegate {

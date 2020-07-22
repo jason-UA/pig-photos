@@ -22,3 +22,15 @@ class Photo {
     }
 
 }
+
+extension Photo: Hashable {
+    static func == (lhs: Photo, rhs: Photo) -> Bool {
+        lhs.asset.localIdentifier == rhs.asset.localIdentifier
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(asset.localIdentifier)
+    }
+    
+    
+}
