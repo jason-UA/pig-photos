@@ -22,6 +22,27 @@ class PhotoPickerCollectionViewCell: UICollectionViewCell {
     
     let timeLabel = UILabel()
     
+    let pickerView: UIView = {
+        let contectView = UIView()
+        contectView.backgroundColor = UIColor.clear
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.alpha = 0.25
+        contectView.addSubview(view)
+        view.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        let picker = UIImageView(image: UIImage(named: "photo_picked"))
+        contectView.addSubview(picker)
+        picker.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize(width: 25, height: 25))
+            make.bottom.right.equalToSuperview().offset(-5)
+        }
+        contectView.isHidden = true
+        return contectView
+    }()
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         imageView.contentMode = .scaleAspectFill
@@ -42,6 +63,10 @@ class PhotoPickerCollectionViewCell: UICollectionViewCell {
             make.right.equalToSuperview().offset(-5)
             make.height.equalTo(15)
         }
+        contentView.addSubview(pickerView)
+        pickerView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
         
     }
     
@@ -60,6 +85,7 @@ class PhotoPickerCollectionViewCell: UICollectionViewCell {
         guard let asset = photo?.asset else {
             self.imageView.image = nil
             timeLabel.isHidden = true
+            pickerView.isHidden = true
             return
         }
         if asset.mediaType == .video {
@@ -73,6 +99,7 @@ class PhotoPickerCollectionViewCell: UICollectionViewCell {
         } else if asset.mediaType == .image {
             timeLabel.isHidden = true
         }
+        pickerView.isHidden = !photo!.isPicked
         reqeustID = PhotoHandler.sharedInstance.fetchPhoto(assert: asset, size: PhotoCollectionViewCell.cellsize()) {[weak self] (image) in
             if let image = image {
                 self?.imageView.image = image

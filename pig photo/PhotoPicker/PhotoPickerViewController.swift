@@ -10,13 +10,6 @@ import UIKit
 
 class PhotoPickerViewController: UIViewController {
     
-    
-    let effectView: UIVisualEffectView = {
-        let effect = UIBlurEffect(style: .light)
-        let effectView = UIVisualEffectView(effect: effect)
-        return effectView
-    }()
-    
     lazy var photoPickerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = PhotoPickerCollectionViewCell.cellsize()
@@ -24,8 +17,6 @@ class PhotoPickerViewController: UIViewController {
         layout.minimumInteritemSpacing = 2
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: layout)
-        collectionView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0)
         collectionView.backgroundColor = UIColor.white
         collectionView.isPagingEnabled = false
         collectionView.delegate = self
@@ -45,7 +36,16 @@ class PhotoPickerViewController: UIViewController {
     init(name: String) {
         albumName = name
         super.init(nibName: nil, bundle: nil)
-        
+        title = "选择照片"
+        navigationItem.prompt = "将照片添加到\"\(name)\"。"
+        let doneButton = UIButton(type: .system)
+        doneButton.setTitle("完成", for: .normal)
+        doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        doneButton.addTarget(self, action: #selector(doneClick), for: .touchUpInside)
+        let doneItem = UIBarButtonItem(customView: doneButton)
+        navigationItem.rightBarButtonItem = doneItem
+        let cancelButton = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(cancelClick))
+        navigationItem.leftBarButtonItem = cancelButton
     }
     
     required init?(coder: NSCoder) {
@@ -55,24 +55,23 @@ class PhotoPickerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.white
-        view.addSubview(effectView)
-        effectView.snp.makeConstraints { (make) in
-            make.top.left.right.equalToSuperview()
-            make.height.equalTo(100)
-        }
         setupCollectionView()
     }
     
     func setupCollectionView() {
-        view.insertSubview(photoPickerCollectionView, belowSubview: effectView)
+        view.addSubview(photoPickerCollectionView)
         photoPickerCollectionView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }
     
+    @objc func doneClick() {
+        
+    }
     
+    @objc func cancelClick() {
+        
+    }
     
     
 }
@@ -94,6 +93,14 @@ extension PhotoPickerViewController: UICollectionViewDelegate, UICollectionViewD
         if let cell = cell as? PhotoPickerCollectionViewCell {
             cell.cancelFetchPhoto()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photo = photos[indexPath.row]
+        photo.isPicked = !photo.isPicked
+        collectionView.performBatchUpdates({
+            collectionView.reloadItems(at: [indexPath])
+        }, completion: nil)
     }
     
     

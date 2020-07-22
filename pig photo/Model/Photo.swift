@@ -14,6 +14,9 @@ class Photo {
     /// 图片集合
     var asset:PHAsset
     
+    var isPicked = false
+    
+    
     public init(asset:PHAsset) {
         self.asset = asset
     }

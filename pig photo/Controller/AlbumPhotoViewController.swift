@@ -45,9 +45,9 @@ class AlbumPhotoViewController: UIViewController {
     
     @objc func additionClick() {
         let photoPickerViewController = PhotoPickerViewController(name: title!)
-//        let navigationController = UINavigationController(rootViewController: photoPickerViewController)
+        let navigationController = UINavigationController(rootViewController: photoPickerViewController)
         
-        self.present(photoPickerViewController, animated: true, completion: nil)
+        self.present(navigationController, animated: true, completion: nil)
         
     }
 
